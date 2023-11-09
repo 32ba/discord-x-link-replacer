@@ -1,0 +1,11 @@
+services:
+  discord-x-link-replacer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: discord-x-link-replacer
+    container_name: discord-x-link-replacer
+    restart: always
+    environment:
+      - DISCORD_TOKEN=YOUR_DISCORD_TOKEN
+      # - TWITTER_PROXY_URL=https://vxtwitter.com
