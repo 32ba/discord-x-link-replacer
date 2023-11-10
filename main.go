@@ -12,6 +12,7 @@ import (
 
 var (
 	linkReplaceRegex = regexp.MustCompile(`https:\/\/(?:twitter|x)\.com\/[A-Za-z0-9_]+\/status\/\d+`)
+	ignoreSpoilerRegex = regexp.MustCompile(`\|\|([^|]+)\|\|`)
 	config = Config{}
 )
 
@@ -52,7 +53,8 @@ func main() {
 }
 
 func replaceXLink(s *discordgo.Session, m *discordgo.MessageCreate) {
-	matches := linkReplaceRegex.FindAllStringSubmatch(m.Content, -1)
+	withOutSpoilerContent := ignoreSpoilerRegex.ReplaceAllString(m.Content, "")
+	matches := linkReplaceRegex.FindAllStringSubmatch(withOutSpoilerContent, -1)
 	replacedLinks := []string{}
 	for _, match := range matches {
 		twUserName := strings.Split(match[0], "/")[3]
